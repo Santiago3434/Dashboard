@@ -1,0 +1,1912 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>GXO | Conteos Ciclicos - Formatos CLIENTID</title>
+
+  <style>
+    /* =========================
+   GXO Conteos Ciclicos - Estilos
+   ========================= */
+    :root {
+      --gxo: #ff3300;
+      --navy: #172033;
+      --dark: #111827;
+      --cyan: #8fd3e6;
+      --green: #dcfce7;
+      --red: #fee2e2;
+      --yellow: #fef3c7;
+      --blue: #2563eb;
+      --teal: #0f766e;
+      --gray: #f3f4f6;
+      --line: #d1d5db;
+      --shadow: 0 10px 25px rgba(15, 23, 42, .12)
+    }
+
+    * {
+      box-sizing: border-box
+    }
+
+    body {
+      margin: 0;
+      font-family: Segoe UI, Arial, sans-serif;
+      background: radial-gradient(circle at top left, #e0f2fe 0, #f6f7fb 28%, #f8fafc 100%);
+      color: #0f172a
+    }
+
+    .app {
+      display: flex;
+      min-height: 100vh
+    }
+
+    .side {
+      width: 280px;
+      background: linear-gradient(180deg, #111827, #253244);
+      color: white;
+      padding: 22px;
+      position: sticky;
+      top: 0;
+      height: 100vh
+    }
+
+    .logo {
+      background: white;
+      color: var(--gxo);
+      font-weight: 900;
+      font-size: 52px;
+      line-height: 1;
+      text-align: center;
+      width: 165px;
+      padding: 12px;
+      letter-spacing: -3px
+    }
+
+    .tag {
+      background: white;
+      color: #111;
+      font-size: 11px;
+      font-weight: 800;
+      width: 165px;
+      text-align: center;
+      padding-bottom: 10px
+    }
+
+    .side h2 {
+      font-size: 20px
+    }
+
+    .side button {
+      width: 100%;
+      border: 0;
+      border-radius: 12px;
+      background: transparent;
+      color: #dbeafe;
+      text-align: left;
+      padding: 12px;
+      margin: 6px 0;
+      font-weight: 900;
+      cursor: pointer
+    }
+
+    .side button.active,
+    .side button:hover {
+      background: #ffffff24;
+      color: white
+    }
+
+    .content {
+      flex: 1;
+      padding: 24px;
+      max-width: 1650px;
+      margin: auto
+    }
+
+    .section {
+      display: none
+    }
+
+    .section.active {
+      display: block
+    }
+
+    .card {
+      background: rgba(255, 255, 255, .92);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(226, 232, 240, .9);
+      border-radius: 20px;
+      box-shadow: var(--shadow);
+      padding: 18px;
+      margin-bottom: 16px
+    }
+
+    .kpis>.card {
+      position: relative;
+      overflow: hidden
+    }
+
+    .kpis>.card:before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 6px;
+      height: 100%;
+      background: linear-gradient(180deg, #ff3300, #2563eb)
+    }
+
+    .kpis .value {
+      letter-spacing: -1px
+    }
+
+    .grid {
+      display: grid;
+      gap: 16px
+    }
+
+    .two {
+      grid-template-columns: 1fr 1fr
+    }
+
+    .kpis {
+      grid-template-columns: repeat(5, minmax(150px, 1fr))
+    }
+
+    .label {
+      font-size: 12px;
+      text-transform: uppercase;
+      color: #64748b;
+      font-weight: 900
+    }
+
+    .value {
+      font-size: 30px;
+      font-weight: 900;
+      margin-top: 5px
+    }
+
+    .small {
+      font-size: 12px;
+      color: #64748b
+    }
+
+    .toolbar,
+    .filters {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: end
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      font-size: 12px;
+      color: #475569;
+      font-weight: 900
+    }
+
+    .field input,
+    .field select {
+      border: 1px solid #cbd5e1;
+      border-radius: 10px;
+      padding: 10px;
+      min-width: 145px;
+      background: white
+    }
+
+    .btn {
+      border: 0;
+      border-radius: 12px;
+      background: var(--navy);
+      color: white;
+      padding: 11px 14px;
+      font-weight: 900;
+      cursor: pointer
+    }
+
+    .btn.gxo {
+      background: var(--gxo)
+    }
+
+    .btn.teal {
+      background: var(--teal)
+    }
+
+    .btn.red {
+      background: #dc2626
+    }
+
+    .btn.ghost {
+      background: white;
+      color: #111827;
+      border: 1px solid #cbd5e1
+    }
+
+    .table-wrap {
+      overflow: auto;
+      border: 1px solid #e5e7eb;
+      border-radius: 14px;
+      max-height: 58vh
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12.5px;
+      background: white
+    }
+
+    th {
+      position: sticky;
+      top: 0;
+      background: #79c9dd;
+      color: #000;
+      text-transform: uppercase;
+      font-size: 12px;
+      z-index: 1
+    }
+
+    td,
+    th {
+      border: 1px solid #111;
+      padding: 7px;
+      white-space: nowrap
+    }
+
+    .num {
+      text-align: right
+    }
+
+    .ok {
+      background: var(--green) !important;
+      font-weight: 900;
+      text-align: center
+    }
+
+    .bad {
+      background: var(--red) !important;
+      font-weight: 900;
+      text-align: center
+    }
+
+    .warn {
+      background: var(--yellow) !important;
+      font-weight: 900;
+      text-align: center
+    }
+
+    .goodText {
+      color: #15803d;
+      font-weight: 900
+    }
+
+    .dangerText {
+      color: #dc2626;
+      font-weight: 900
+    }
+
+    .badge {
+      border-radius: 999px;
+      padding: 7px 11px;
+      font-weight: 900;
+      display: inline-block
+    }
+
+    .badb {
+      background: var(--red);
+      color: #991b1b
+    }
+
+    .warnb {
+      background: var(--yellow);
+      color: #92400e
+    }
+
+    .okb {
+      background: var(--green);
+      color: #166534
+    }
+
+    .chart {
+      height: 365px;
+      position: relative;
+      background: linear-gradient(180deg, #ffffff, #f8fafc);
+      border: 1px solid #dbeafe;
+      overflow: hidden
+    }
+
+    .chart h3 {
+      margin: 0 0 8px 0;
+      color: #0f172a;
+      display: flex;
+      align-items: center;
+      gap: 8px
+    }
+
+    .chart h3:before {
+      content: "";
+      width: 10px;
+      height: 10px;
+      border-radius: 99px;
+      background: #ff3300;
+      box-shadow: 0 0 0 5px rgba(255, 51, 0, .12)
+    }
+
+    .chart canvas {
+      width: 100%;
+      height: 270px;
+      cursor: crosshair
+    }
+
+    .chart::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: 20px;
+      pointer-events: none;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, .8)
+    }
+
+    .chart-help {
+      font-size: 11px;
+      color: #64748b;
+      margin-top: -4px
+    }
+
+    .chart-tip {
+      display: none;
+      position: fixed;
+      z-index: 9999;
+      background: #0f172a;
+      color: #fff;
+      border-radius: 10px;
+      padding: 8px 10px;
+      font-size: 12px;
+      box-shadow: 0 10px 25px rgba(15, 23, 42, .28);
+      pointer-events: none;
+      max-width: 260px
+    }
+
+    .chart-tip b {
+      color: #93c5fd
+    }
+
+    .print-kpi {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 8px;
+      margin: 10px 0
+    }
+
+    .print-kpi div {
+      border-radius: 10px;
+      padding: 10px;
+      text-align: center;
+      color: #fff;
+      font-weight: 900
+    }
+
+    .pk-blue {
+      background: #2563eb
+    }
+
+    .pk-green {
+      background: #16a34a
+    }
+
+    .pk-orange {
+      background: #f97316
+    }
+
+    .pk-red {
+      background: #dc2626
+    }
+
+    .pk-teal {
+      background: #0f766e
+    }
+
+    .xlbtn {
+      background: #15803d !important
+    }
+
+    .pdfbtn {
+      background: #7c2d12 !important
+    }
+
+    .toast {
+      display: none;
+      position: fixed;
+      right: 24px;
+      bottom: 20px;
+      background: #111827;
+      color: white;
+      border-radius: 12px;
+      padding: 12px 16px;
+      box-shadow: var(--shadow);
+      z-index: 50
+    }
+
+    .print-only {
+      display: none
+    }
+
+    .drop {
+      border: 2px dashed #94a3b8;
+      border-radius: 16px;
+      padding: 18px;
+      background: #f8fafc
+    }
+
+    .cols {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap
+    }
+
+    .colpill {
+      background: #e0f2fe;
+      border: 1px solid #38bdf8;
+      border-radius: 999px;
+      padding: 6px 10px;
+      font-weight: 900;
+      font-size: 12px
+    }
+
+    .note {
+      background: #fefce8;
+      border: 1px solid #fde68a;
+      border-radius: 14px;
+      padding: 12px
+    }
+
+    @media(max-width:1000px) {
+      .app {
+        display: block
+      }
+
+      .side {
+        width: 100%;
+        height: auto;
+        position: relative
+      }
+
+      .side button {
+        display: inline-block;
+        width: auto
+      }
+
+      .two,
+      .kpis {
+        grid-template-columns: 1fr
+      }
+
+      .content {
+        padding: 14px
+      }
+    }
+
+    @media print {
+      .app {
+        display: none
+      }
+
+      .print-only {
+        display: block
+      }
+
+      .watermark {
+        position: fixed;
+        top: 43%;
+        left: 34%;
+        font-size: 86px;
+        color: rgba(0, 0, 0, .22)
+      }
+
+      .ph {
+        display: grid;
+        grid-template-columns: 260px 1fr 230px;
+        border: 2px solid #000;
+        height: 100px
+      }
+
+      .plogo {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-right: 2px solid #000
+      }
+
+      .gxot {
+        font-size: 58px;
+        color: #ff3300;
+        font-weight: 900
+      }
+
+      .ptitle {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 28px;
+        font-weight: 900;
+        border-right: 2px solid #000
+      }
+
+      .pdate {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 900;
+        font-size: 20px
+      }
+
+      .band {
+        background: linear-gradient(90deg, #ff3300, #1f2937);
+        color: #fff;
+        text-align: center;
+        font-weight: 900;
+        padding: 8px;
+        border: 2px solid #000;
+        border-top: 0
+      }
+
+      .meta {
+        display: grid;
+        grid-template-columns: 135px 1fr 125px 1fr 100px 1fr;
+        border-left: 2px solid #000;
+        border-right: 2px solid #000
+      }
+
+      .meta div {
+        border-right: 1px solid #000;
+        border-bottom: 1px solid #000;
+        padding: 7px;
+        font-size: 12px;
+        min-height: 29px
+      }
+
+      .lab {
+        font-weight: 900;
+        background: #e5e7eb
+      }
+
+      .val {
+        font-weight: 900;
+        color: #073bdf;
+        text-align: center
+      }
+
+      .green {
+        background: #befff0;
+        color: #000
+      }
+
+      .pt {
+        width: 100%;
+        border-collapse: collapse
+      }
+
+      .pt th {
+        position: static;
+        background: #1f2937 !important;
+        color: #fff !important;
+        border: 1px solid #000;
+        font-size: 12px
+      }
+
+      .print-summary {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 6px;
+        margin: 10px 0
+      }
+
+      .print-summary div {
+        border: 1px solid #000;
+        border-radius: 8px;
+        padding: 7px;
+        color: #fff;
+        text-align: center;
+        font-size: 12px
+      }
+
+      .ps1 {
+        background: #2563eb
+      }
+
+      .ps2 {
+        background: #0f766e
+      }
+
+      .ps3 {
+        background: #16a34a
+      }
+
+      .ps4 {
+        background: #f97316
+      }
+
+      .ps5 {
+        background: #dc2626
+      }
+
+      .pt td {
+        border: 1px solid #000;
+        font-size: 11px;
+        text-align: center;
+        padding: 5px
+      }
+
+      @page {
+        size: landscape;
+        margin: 8mm
+      }
+    }
+
+
+    /* =========================
+   Rediseño estético PDF only
+   ========================= */
+    :root {
+      --bg: #f4f7fb;
+      --panel: #ffffff;
+      --ink: #0f172a;
+      --muted: #64748b;
+      --gxo: #ff3300;
+      --blue: #2563eb;
+      --cyan: #06b6d4;
+      --green: #16a34a;
+      --red: #dc2626;
+      --amber: #f59e0b;
+      --slate: #111827;
+      --soft: #e2e8f0;
+      --radius: 22px;
+      --shadow2: 0 18px 42px rgba(15, 23, 42, .12)
+    }
+
+    body {
+      background: linear-gradient(135deg, #f8fafc 0%, #eef6ff 48%, #fff7ed 100%) !important;
+      color: var(--ink)
+    }
+
+    .app {
+      background: transparent
+    }
+
+    .side {
+      width: 292px;
+      background: linear-gradient(180deg, #0f172a 0%, #1f2937 52%, #111827 100%);
+      padding: 26px 22px;
+      border-right: 1px solid rgba(255, 255, 255, .08)
+    }
+
+    .logo {
+      border-radius: 18px;
+      box-shadow: 0 12px 28px rgba(0, 0, 0, .25);
+      width: 172px
+    }
+
+    .tag {
+      border-radius: 0 0 14px 14px;
+      width: 172px
+    }
+
+    .side h2 {
+      margin-top: 28px;
+      letter-spacing: .2px
+    }
+
+    .side button {
+      border: 1px solid transparent;
+      padding: 13px 14px;
+      border-radius: 16px;
+      margin: 8px 0;
+      transition: .18s ease
+    }
+
+    .side button.active,
+    .side button:hover {
+      background: rgba(255, 255, 255, .12);
+      border-color: rgba(255, 255, 255, .16);
+      transform: translateX(3px)
+    }
+
+    .content {
+      max-width: 1720px;
+      padding: 28px
+    }
+
+    .page-hero {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      margin-bottom: 20px;
+      padding: 26px;
+      border-radius: 28px;
+      background: linear-gradient(135deg, #111827 0%, #1d4ed8 62%, #ff3300 125%);
+      color: white;
+      box-shadow: var(--shadow2);
+      position: relative;
+      overflow: hidden
+    }
+
+    .page-hero:after {
+      content: "";
+      position: absolute;
+      right: -80px;
+      top: -80px;
+      width: 260px;
+      height: 260px;
+      border-radius: 99px;
+      background: rgba(255, 255, 255, .12)
+    }
+
+    .page-hero h1 {
+      margin: 3px 0 8px;
+      font-size: 34px;
+      letter-spacing: -.7px
+    }
+
+    .page-hero p {
+      margin: 0;
+      color: #dbeafe;
+      font-size: 15px
+    }
+
+    .eyebrow {
+      text-transform: uppercase;
+      font-size: 12px !important;
+      font-weight: 900;
+      letter-spacing: .14em;
+      color: #fed7aa !important
+    }
+
+    .hero-chip {
+      position: relative;
+      background: rgba(255, 255, 255, .15);
+      border: 1px solid rgba(255, 255, 255, .28);
+      padding: 12px 16px;
+      border-radius: 999px;
+      font-weight: 900;
+      white-space: nowrap
+    }
+
+    .card {
+      border-radius: var(--radius) !important;
+      border: 1px solid rgba(148, 163, 184, .22) !important;
+      background: rgba(255, 255, 255, .88) !important;
+      box-shadow: var(--shadow2) !important
+    }
+
+    .control-panel {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      background: rgba(255, 255, 255, .94) !important
+    }
+
+    .field input,
+    .field select {
+      border: 1px solid #dbe3ef !important;
+      border-radius: 14px !important;
+      background: #f8fafc !important
+    }
+
+    .btn {
+      border-radius: 14px !important;
+      padding: 11px 16px !important;
+      box-shadow: 0 8px 16px rgba(15, 23, 42, .10);
+      transition: .18s ease
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+      filter: brightness(1.02)
+    }
+
+    .pdfbtn {
+      background: linear-gradient(135deg, #ff3300, #7c2d12) !important;
+      color: #fff !important
+    }
+
+    .xlbtn {
+      display: none !important
+    }
+
+    .kpis {
+      grid-template-columns: repeat(5, minmax(170px, 1fr));
+      gap: 18px
+    }
+
+    .kpis>.card {
+      min-height: 124px;
+      padding: 20px !important
+    }
+
+    .kpis>.card:before {
+      width: 8px !important;
+      background: linear-gradient(180deg, #ff3300, #2563eb, #0f766e) !important
+    }
+
+    .label {
+      color: #64748b !important;
+      font-size: 11px !important;
+      letter-spacing: .08em
+    }
+
+    .value {
+      font-size: 34px !important;
+      letter-spacing: -1.2px;
+      color: #0f172a
+    }
+
+    .chart {
+      border-radius: 24px !important;
+      height: 380px !important;
+      background: linear-gradient(180deg, #fff, #f8fbff) !important
+    }
+
+    .chart h3 {
+      font-size: 17px
+    }
+
+    .chart-help {
+      background: #eff6ff;
+      padding: 7px 10px;
+      border-radius: 999px;
+      display: inline-block;
+      margin-bottom: 4px;
+      color: #31577f !important
+    }
+
+    .table-wrap {
+      border-radius: 18px !important;
+      border: 1px solid #dbeafe !important
+    }
+
+    th {
+      background: #111827 !important;
+      color: #fff !important;
+      border-color: #334155 !important
+    }
+
+    td {
+      border-color: #e2e8f0 !important
+    }
+
+    tr:nth-child(even) td {
+      background: #f8fafc
+    }
+
+    .section h2,
+    .card h2,
+    .card h3 {
+      letter-spacing: -.2px
+    }
+
+    .drop {
+      background: linear-gradient(180deg, #fff, #f8fafc) !important;
+      border: 1px dashed #93c5fd !important
+    }
+
+    .note {
+      background: #fff7ed !important;
+      border: 1px solid #fed7aa !important;
+      color: #7c2d12
+    }
+
+    .badge {
+      border-radius: 999px !important;
+      padding: 8px 12px !important
+    }
+
+    @media(max-width:1000px) {
+      .page-hero {
+        display: block
+      }
+
+      .hero-chip {
+        display: inline-block;
+        margin-top: 14px
+      }
+
+      .kpis {
+        grid-template-columns: 1fr
+      }
+
+      .content {
+        padding: 16px
+      }
+
+      .side {
+        width: 100%
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="app">
+    <aside class="side">
+      <div class="logo">GXO</div>
+      <div class="tag">Logistics at full potential</div>
+      <h2>Conteos ciclicos</h2><button class="active" data-tab="carga">Carga y comparativa</button>
+      <button data-tab="dash">Dashboard</button><button data-tab="hist">Historial</button><button data-tab="incidencias">Incidencias</button>
+      <button data-tab="respaldo">Respaldo</button>
+      <p class="small" style="color:#cbd5e1"> REALIZADO EN MEXIII
+      </p>
+    </aside>
+    <main class="content">
+      <div class="page-hero">
+        <div>
+          <p class="eyebrow">Inventarios · Conteos Cíclicos</p>
+          <h1>Dashboard de Conteos GXO</h1>
+          <p>Controla conteos, diferencias, IRA, ILA y reportes
+            PDF diarios, semanales o mensuales.</p>
+        </div>
+        <div class="hero-chip">Reportes en PDF</div>
+      </div>
+      <section id="carga" class="section active">
+        <div class="grid two">
+          <div class="card drop">
+            <h2>1) Subir conteo a realizar</h2>
+            <p>Este formato debe traer exactamente o similar:</p>
+            <div class="cols"><span class="colpill">CLIENTID</span><span class="colpill">LOC</span>
+              <span class="colpill">SKU</span><span class="colpill">LPN</span>
+              <span class="colpill">BATCHKEY</span><span class="colpill">CANTIDAD SISTEMA</span>
+            </div><br>
+            <input type="file" accept=".xlsx,.csv" onchange="loadPlan(event)">
+            <div id="planStatus" class="small"></div>
+          </div>
+          <div class="card drop">
+            <h2>2) Subir conteo terminado</h2>
+            <p>Este formato debe traer:</p>
+            <div class="cols"><span class="colpill">CLIENTID</span><span class="colpill">LOC</span>
+              <span class="colpill">SKU</span><span class="colpill">LPN</span>
+              <span class="colpill">BATCHKEY</span><span class="colpill">CANTIDAD SISTEMA</span>
+              <span class="colpill">CANTIDAD CONTADA</span>
+            </div><br>
+            <div class="toolbar"><label class="field">Numero de conteo<select id="countRound">
+                  <option value="1">1er conteo terminado</option>
+                  <option value="2">2do conteo terminado</option>
+                  <option value="3">3er conteo terminado</option>
+                </select></label>
+              <input type="file" accept=".xlsx,.csv" onchange="loadDone(event)"><button class="btn gxo"
+                onclick="compareFiles()">Comparar</button>
+            </div>
+            <div id="doneStatus" class="small"></div>
+          </div>
+        </div>
+        <div class="card note"><b>Regla de alertas:</b> si el 1er conteo no concuerda
+          con sistema, alerta <b>REALIZAR 2DO CONTEO</b>.
+          Si el 2do conteo no concuerda, alerta <b>REALIZAR 3ER CONTEO</b>.
+          Si el 3er conteo no concuerda, queda como <b>DIFERENCIA FINAL</b>.</div>
+
+        <div class="card">
+          <h2>Alertas de comparativa</h2>
+          <div class="toolbar"><span class="badge warnb" id="b2">2do conteo: 0</span>
+            <span class="badge warnb" id="b3">3er conteo: 0</span><span class="badge badb" id="bf">Diferencia final:
+              0</span>
+            <span class="badge okb" id="bok">OK: 0</span><span class="badge" id="blines">Lineas: 0</span>
+          </div>
+          <div class="toolbar" style="margin-top:12px"><button class="btn teal" onclick="saveCompared()">Guardar
+              comparativa al historial</button>
+              
+            <button class="btn xlbtn" onclick="exportExcelReport(comparedRows,'comparativa')">Exportar Excel con
+              formato</button><button class="btn pdfbtn" onclick="preparePrint(comparedRows);window.print()">PDF formato
+              conteo</button>
+          </div>
+          <div class="table-wrap" style="margin-top:12px">
+            <table id="compareTable"></table>
+          </div>
+        </div>
+        <div class="card">
+          <h2>Resumen de la comparativa</h2>
+          <div class="grid kpis">
+            <div class="card">
+              <div class="label">IRA</div>
+              <div class="value" id="cmpIra">0%</div>
+            </div>
+            <div class="card">
+              <div class="label">ILA</div>
+              <div class="value" id="cmpIla">0%</div>
+            </div>
+            <div class="card">
+              <div class="label">Ubicaciones</div>
+              <div class="value" id="cmpLocs">0</div>
+            </div>
+            <div class="card">
+              <div class="label">SKU</div>
+              <div class="value" id="cmpSkus">0</div>
+            </div>
+            <div class="card">
+              <div class="label">Diferencia</div>
+              <div class="value" id="cmpDiff">0</div>
+            </div>
+          </div>
+          <div class="grid two">
+            <div class="card chart">
+              <h3>IRA vs ILA</h3><canvas id="cmpGauge"></canvas>
+            </div>
+            <div class="card chart">
+              <h3>Alertas del conteo</h3><canvas id="cmpAlerts"></canvas>
+            </div>
+          </div>
+          <div class="toolbar" style="margin-top:12px">
+            <span class="badge" id="cmpMissing">Faltantes: 0</span>
+            <span class="badge" id="cmpExtra">No programadas: 0</span>
+            <span class="badge badb" id="cmpInc">Incidencias: 0</span>
+          </div>
+          <div class="table-wrap">
+            <table id="cmpPeriodTable"></table>
+          </div>
+        </div>
+      </section>
+      <section id="dash" class="section dashboard-layout">
+        <div class="card filters control-panel"><label class="field">Desde<input id="fFrom" type="date"></label>
+          <label class="field">Hasta<input id="fTo" type="date"></label>
+          <label class="field">Batchkey<input id="fBatch" placeholder="CYC..."></label>
+          <button class="btn" onclick="renderDashboard()">Actualizar</button><button class="btn pdfbtn"
+            onclick="exportPeriodPdf('dia')">PDF día</button>
+          <button class="btn pdfbtn" onclick="exportPeriodPdf('semana')">PDF semana</button><button class="btn pdfbtn"
+            onclick="exportPeriodPdf('mes')">PDF mes</button>
+        </div>
+        <div class="grid kpis">
+          <div class="card">
+            <div class="label">IRA</div>
+            <div class="value" id="kIra">0%</div>
+          </div>
+          <div class="card">
+            <div class="label">ILA</div>
+            <div class="value" id="kIla">0%</div>
+          </div>
+          <div class="card">
+            <div class="label">Qty Accuracy</div>
+            <div class="value" id="kQty">0%</div>
+          </div>
+          <div class="card">
+            <div class="label">Ubicaciones</div>
+            <div class="value" id="kLocs">0</div>
+          </div>
+          <div class="card">
+            <div class="label">SKU</div>
+            <div class="value" id="kSkus">0</div>
+          </div>
+        </div>
+        <div class="grid two">
+          <div class="card chart">
+            <h3>IRA / ILA por semana</h3>
+            <div class="chart-help">Pasa el mouse para ver el detalle por semana.</div>
+            <canvas id="chart1"></canvas>
+          </div>
+          <div class="card chart">
+            <h3>Diferencia absoluta por semana</h3>
+            <div class="chart-help">Hover muestra piezas con diferencia y tendencia.</div>
+            <canvas id="chart2"></canvas>
+          </div>
+        </div>
+        <div class="grid two">
+          <div class="card chart">
+            <h3>Top 10 ubicaciones con diferencia</h3>
+            <div class="chart-help">Hover muestra la ubicación y diferencia acumulada.</div>
+            <canvas id="chart3"></canvas>
+          </div>
+          <div class="card chart">
+            <h3>Distribución de alertas</h3>
+            <div class="chart-help">Hover muestra el volumen por estatus.</div>
+            <canvas id="chart4"></canvas>
+          </div>
+        </div>
+        <div class="card">
+          <h3>Ubicaciones y SKU por día, semana y mes</h3>
+          <div class="table-wrap">
+            <table id="periodTable"></table>
+          </div>
+        </div>
+      </section>
+      <section id="hist" class="section">
+        <div class="card">
+          <div class="toolbar" style="justify-content:space-between">
+            <h2>Historial guardado</h2>
+            <div><button class="btn red" onclick="clearHistory()">Borrar historial</button></div>
+          </div>
+          <div class="filters"><label class="field">Buscar<input id="hSearch" oninput="renderHistory()"
+                placeholder="LOC, SKU, LPN, BATCHKEY"></label>
+            <label class="field">Alerta<select id="hAlert" onchange="renderHistory()">
+                <option value="">Todas</option>
+                <option>OK</option>
+                <option>REALIZAR 2DO CONTEO</option>
+                <option>REALIZAR 3ER CONTEO</option>
+                <option>DIFERENCIA FINAL</option>
+              </select></label>
+          </div>
+          <div class="table-wrap" style="margin-top:12px">
+            <table id="histTable"></table>
+          </div>
+        </div>
+      </section>
+
+
+      <section id="incidencias" class="section">
+        <div class="card">
+          <div class="toolbar" style="justify-content:space-between">
+            <h2>Registro y formato de incidencias</h2>
+            <div class="toolbar">
+              <button class="btn ghost" onclick="exportIncidents()">Exportar CSV</button>
+              <button class="btn red" onclick="clearIncidents()">Borrar incidencias</button>
+            </div>
+          </div>
+
+          <div class="note" style="margin-bottom:14px">
+            <b>Regla:</b> solo se genera una incidencia cuando existe una diferencia entre
+            <b>CANTIDAD SISTEMA</b> y <b>CANTIDAD CONTADA</b>
+          </div>
+
+          <div class="grid two">
+            <div class="card">
+              <h3>Nueva incidencia</h3>
+
+              <div class="grid two">
+                <label class="field">A quién se aplica
+                  <select id="incAplica">
+                    <option value="OPERADOR DE CONTEO">Operador de conteo</option>
+                    <option value="PUTAWAY">Putaway</option>
+                    <option value="DOBLES MOVIMIENTOS">Dobles Movimientos</option>
+                     <option value="OTRO">Otro</option>
+                  </select>
+                </label>
+
+                <label class="field">Responsable / nombre
+                  <input id="incResponsable" placeholder="Nombre del responsable">
+                </label>
+
+                <label class="field">Tipo de diferencia
+                  <select id="incTipo">
+                    <option value="DIFERENCIA DE CANTIDAD">Diferencia de cantidad</option>
+                    <option value="SISTEMA MAYOR A FISICO">Sistema mayor a físico</option>
+                    <option value="FISICO MAYOR A SISTEMA">Físico mayor a sistema</option>
+                    <option value="LINEA FALTANTE">Línea faltante</option>
+                    <option value="LINEA NO PROGRAMADA">Línea no programada</option>
+                  </select>
+                </label>
+
+                <label class="field">Severidad
+                  <select id="incSeveridad">
+                    <option value="BAJA">Baja</option>
+                    <option value="MEDIA" selected>Media</option>
+                    <option value="ALTA">Alta</option>
+                    <option value="CRITICA">Crítica</option>
+                  </select>
+                </label>
+
+                <label class="field">Causa
+                  <select id="incCausa">
+                    <option value="ERROR DE CONTEO">Error de conteo</option>
+                    <option value="ERROR DE CAPTURA">Error de captura</option>
+                    <option value="UBICACION INCORRECTA">Ubicación incorrecta</option>
+                    <option value="MOVIMIENTO NO REGISTRADO">Movimiento no registrado</option>
+                    <option value="UNIDAD DE MEDIDA">Unidad de medida</option>
+                    <option value="OTRA">Otra</option>
+                  </select>
+                </label>
+
+                <label class="field">Estatus
+                  <select id="incEstatus">
+                    <option value="ABIERTA">Abierta</option>
+                    <option value="EN INVESTIGACION">En investigación</option>
+                    <option value="ACCION CORRECTIVA">Acción correctiva</option>
+                    <option value="CERRADA">Cerrada</option>
+                  </select>
+                </label>
+
+                <label class="field">Fecha compromiso
+                  <input id="incFechaCompromiso" type="date">
+                </label>
+
+                <label class="field">Acción correctiva
+                  <input id="incAccion" placeholder="Acción a realizar">
+                </label>
+              </div>
+
+              <label class="field" style="margin-top:10px">Comentarios / evidencia
+                <textarea id="incComentarios" rows="4"
+                  style="border:1px solid #dbe3ef;border-radius:14px;padding:10px;resize:vertical"
+                  placeholder="Describe qué ocurrió, evidencia encontrada y seguimiento."></textarea>
+              </label>
+
+              <div class="toolbar" style="margin-top:12px">
+                <button class="btn gxo" onclick="saveManualIncident()">Guardar incidencia</button>
+                <button class="btn ghost" onclick="clearIncidentForm()">Limpiar</button>
+              </div>
+            </div>
+
+            <div class="card">
+              <h3>Resumen de incidencias</h3>
+              <div class="grid kpis">
+                <div class="card"><div class="label">Incidencias</div><div class="value" id="iTotal">0</div></div>
+                <div class="card"><div class="label">Alta / Crítica</div><div class="value" id="iHigh">0</div></div>
+                <div class="card"><div class="label">Abiertas</div><div class="value" id="iOpen">0</div></div>
+                <div class="card"><div class="label">En acción</div><div class="value" id="iAction">0</div></div>
+                <div class="card"><div class="label">Cerradas</div><div class="value" id="iClosed">0</div></div>
+              </div>
+
+              <div class="filters" style="margin-top:12px">
+                <label class="field">Buscar
+                  <input id="iSearch" oninput="renderIncidents()" placeholder="BATCHKEY, LOC, SKU, responsable">
+                </label>
+                <label class="field">Estatus
+                  <select id="iType" onchange="renderIncidents()">
+                    <option value="">Todos</option>
+                    <option value="ABIERTA">Abierta</option>
+                    <option value="EN INVESTIGACION">En investigación</option>
+                    <option value="ACCION CORRECTIVA">Acción correctiva</option>
+                    <option value="CERRADA">Cerrada</option>
+                  </select>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <div class="table-wrap" style="margin-top:14px">
+            <table id="incidentTable"></table>
+          </div>
+        </div>
+      </section>
+      <section id="respaldo" class="section">
+        <div class="card">
+          <h2>Respaldo</h2>
+          <p>Toda la informacion se guarda localmente en este
+            navegador. Descarga respaldo si vas a cambiar
+            de equipo.</p><button class="btn" onclick="downloadBackup()">Descargar respaldo JSON</button> <label
+            class="btn ghost">Importar respaldo JSON<input type="file" accept="application/json" style="display:none"
+              onchange="importBackup(event)"></label>
+        </div>
+      </section>
+
+    </main>
+  </div>
+  <div class="print-only">
+    <div class="watermark">Page 1</div>
+    <div id="printSheet"></div>
+  </div>
+  <div id="chartTip" class="chart-tip"></div>
+  <div id="toast" class="toast"></div>
+  <script>
+    /* =========================
+       GXO Conteos Ciclicos - App JS
+       Secciones: carga, comparativa, dashboard, exportacion XLSX
+       ========================= */
+    const STORE = 'gxo_formato_clientid_hist_v3';
+    const INCIDENT_STORE = 'gxo_conteos_incidencias_v1';
+    const METRIC_TOLERANCE = 0.000001;
+    let planRows = [], doneRows = [], comparedRows = [];
+    const $ = id => document.getElementById(id);
+    const esc = s => String(s ?? '').replace(/[&<>"]/g, m => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;'}[m]));
+    const fmt = (n, d = 0) => (Number(n) || 0).toLocaleString('es-MX', {minimumFractionDigits: d, maximumFractionDigits: d});
+    const pct = x => ((Number(x) || 0) * 100).toFixed(1) + '%';
+    const today = () => new Date().toISOString().slice(0, 10);
+    function toast(t) {$('toast').textContent = t; $('toast').style.display = 'block'; setTimeout(() => $('toast').style.display = 'none', 2400)}
+    const CHART_HITS = {};
+    function initChartEvents(id) {let c = $(id); if (!c || c.dataset.interactive) return; c.dataset.interactive = '1'; c.addEventListener('mousemove', e => chartMove(e, id)); c.addEventListener('mouseleave', () => {$('chartTip').style.display = 'none'}); c.addEventListener('click', e => chartClick(e, id))}
+    function chartXY(e, c) {let r = c.getBoundingClientRect(); return {x: (e.clientX - r.left) * (c.width / r.width), y: (e.clientY - r.top) * (c.height / r.height)}}
+    function chartMove(e, id) {let c = $(id), p = chartXY(e, c), hit = (CHART_HITS[id] || []).find(h => p.x >= h.x && p.x <= h.x + h.w && p.y >= h.y && p.y <= h.y + h.h); let tip = $('chartTip'); if (hit) {tip.innerHTML = hit.tip; tip.style.left = (e.clientX + 14) + 'px'; tip.style.top = (e.clientY + 14) + 'px'; tip.style.display = 'block'} else tip.style.display = 'none'}
+    function chartClick(e, id) {let c = $(id), p = chartXY(e, c), hit = (CHART_HITS[id] || []).find(h => p.x >= h.x && p.x <= h.x + h.w && p.y >= h.y && p.y <= h.y + h.h); if (!hit) return; if (hit.kind === 'loc') {let btn = [...document.querySelectorAll('.side button')].find(b => b.dataset.tab === 'hist'); if (btn) btn.click(); $('hSearch').value = hit.value; renderHistory(); toast('Filtrado por ubicación ' + hit.value)} else toast((hit.plain || hit.tip.replace(/<[^>]*>/g, '')).slice(0, 120))}
+    function addHit(id, x, y, w, h, tip, kind = '', value = '', plain = '') {(CHART_HITS[id] = CHART_HITS[id] || []).push({x, y, w, h, tip, kind, value, plain})}
+
+    function getHist() {try {return JSON.parse(localStorage.getItem(STORE) || '[]')} catch (e) {return []} }
+    function setHist(x) {localStorage.setItem(STORE, JSON.stringify(x))}
+    function weekNum(ds) {let d = new Date((ds || today()) + 'T00:00:00'), j = new Date(d.getFullYear(), 0, 1); return Math.ceil((((d - j) / 86400000) + j.getDay() + 1) / 7)}
+    function monthKey(d) {return String(d || today()).slice(0, 7)}
+    
+    function normKeyPart(value) {
+      return String(value ?? '').trim().toUpperCase().replace(/\s+/g, ' ');
+    }
+
+    function key(r) {
+      return [r.clientid, r.loc, r.sku, r.lpn, r.batchkey]
+        .map(normKeyPart)
+        .join('|');
+    }
+
+    function keyLoose(r) {
+      return [r.loc, r.sku, r.lpn, r.batchkey]
+        .map(normKeyPart)
+        .join('|');
+    }
+
+    function toNumber(value) {
+      if (typeof value === 'number') return Number.isFinite(value) ? value : 0;
+      const raw = String(value ?? '').trim();
+      if (!raw) return 0;
+      const normalized = raw.includes(',') && !raw.includes('.')
+        ? raw.replace(',', '.')
+        : raw.replace(/,/g, '');
+      const n = Number(normalized);
+      return Number.isFinite(n) ? n : 0;
+    }
+
+    function diff(r) {
+      return toNumber(r.cantidadContada) - toNumber(r.cantidadSistema);
+    }
+
+    function isOk(r) {
+      return Math.abs(diff(r)) <= METRIC_TOLERANCE;
+    }
+
+    function aggregateRows(rows) {
+      const map = new Map();
+
+      rows.forEach(r => {
+        const k = key(r);
+        if (!k) return;
+
+        if (!map.has(k)) {
+          map.set(k, {
+            ...r,
+            cantidadSistema: toNumber(r.cantidadSistema),
+            cantidadContada: toNumber(r.cantidadContada)
+          });
+        } else {
+          const current = map.get(k);
+          current.cantidadSistema += toNumber(r.cantidadSistema);
+          current.cantidadContada += toNumber(r.cantidadContada);
+        }
+      });
+
+      return [...map.values()];
+    }
+
+    function duplicateKeys(rows) {
+      const counts = new Map();
+
+      rows.forEach(r => {
+        const k = key(r);
+        counts.set(k, (counts.get(k) || 0) + 1);
+      });
+
+      return [...counts.entries()]
+        .filter(([, count]) => count > 1)
+        .map(([k, count]) => ({k, count}));
+    }
+
+    function metrics(data) {
+      const rows = aggregateRows(data);
+
+      const lines = rows.length;
+      const sys = rows.reduce((a, r) => a + toNumber(r.cantidadSistema), 0);
+      const phy = rows.reduce((a, r) => a + toNumber(r.cantidadContada), 0);
+      const abs = rows.reduce((a, r) => a + Math.abs(diff(r)), 0);
+      const ok = rows.filter(isOk).length;
+
+      const locMap = {};
+      rows.forEach(r => {
+        const loc = normKeyPart(r.loc) || '(SIN LOC)';
+        if (!locMap[loc]) {
+          locMap[loc] = {system: 0, counted: 0, difference: 0};
+        }
+        locMap[loc].system += toNumber(r.cantidadSistema);
+        locMap[loc].counted += toNumber(r.cantidadContada);
+        locMap[loc].difference += diff(r);
+      });
+
+      const locationValues = Object.values(locMap);
+      const locs = locationValues.length;
+      const accurateLocations = locationValues.filter(
+        v => Math.abs(v.difference) <= METRIC_TOLERANCE
+      ).length;
+
+      const ila = locs ? accurateLocations / locs : 0;
+
+      const locationSystem = locationValues.reduce(
+        (a, v) => a + Math.abs(v.system), 0
+      );
+      const locationAbsDiff = locationValues.reduce(
+        (a, v) => a + Math.abs(v.difference), 0
+      );
+
+      const ilaQuantity = locationSystem > METRIC_TOLERANCE
+        ? Math.max(0, 1 - locationAbsDiff / locationSystem)
+        : (lines ? ok / lines : 0);
+
+      return {
+        lines,
+        sys,
+        phy,
+        dif: phy - sys,
+        abs,
+        ok,
+        ira: lines ? ok / lines : 0,
+        ila,
+        ilaQuantity,
+        qty: sys
+          ? Math.max(0, 1 - abs / Math.abs(sys))
+          : (lines ? ok / lines : 0),
+        locs,
+        sku: new Set(rows.map(r => normKeyPart(r.sku))).size,
+        accurateLocations
+      };
+    }
+
+    function alertFor(r, round) {
+      if (isOk(r)) return 'OK';
+      if (round === 1) return 'REALIZAR 2DO CONTEO';
+      if (round === 2) return 'REALIZAR 3ER CONTEO';
+      return 'DIFERENCIA FINAL';
+    }
+
+
+
+    // ==========================================================
+    // REGISTRO DE INCIDENCIAS
+    // ==========================================================
+    function getIncidents() {
+      try {
+        return JSON.parse(localStorage.getItem(INCIDENT_STORE) || '[]');
+      } catch (e) {
+        return [];
+      }
+    }
+
+    function setIncidents(rows) {
+      localStorage.setItem(INCIDENT_STORE, JSON.stringify(rows));
+    }
+
+    function addIncidents(rows) {
+      if (rows.length) setIncidents(getIncidents().concat(rows));
+    }
+
+    function makeIncidentId(prefix = 'inc') {
+      return prefix + '-' + Date.now() + '-' + Math.random().toString(36).slice(2, 8);
+    }
+
+    function severityFromDifference(row) {
+      const base = Math.abs(toNumber(row.cantidadSistema));
+      const deviation = Math.abs(diff(row));
+
+      if (base > 0 && deviation / base >= 0.25) return 'CRITICA';
+      if (deviation >= Math.max(1, base * 0.10)) return 'ALTA';
+      return 'MEDIA';
+    }
+
+    // Solo genera incidencia cuando existe una diferencia real.
+    function incidentFromRow(row) {
+      if (isOk(row)) return null;
+
+      const delta = diff(row);
+      let tipo = 'DIFERENCIA DE CANTIDAD';
+
+      if (row.matchStatus === 'MISSING_IN_COUNT') {
+        tipo = 'LINEA FALTANTE';
+      } else if (row.matchStatus === 'EXTRA_IN_COUNT') {
+        tipo = 'LINEA NO PROGRAMADA';
+      } else if (delta < 0) {
+        tipo = 'SISTEMA MAYOR A FISICO';
+      } else if (delta > 0) {
+        tipo = 'FISICO MAYOR A SISTEMA';
+      }
+
+      return {
+        id: makeIncidentId(),
+        fecha: row.fecha || today(),
+        fechaCompromiso: '',
+        tipo,
+        severidad: severityFromDifference(row),
+        aplicaA: 'OPERADOR DE CONTEO',
+        responsable: '',
+        estatus: 'ABIERTA',
+        causa: 'ERROR DE CONTEO',
+        accion: '',
+        comentarios: 'Incidencia generada automáticamente por diferencia de inventario.',
+        round: row.round || 1,
+        batchkey: row.batchkey || '',
+        loc: row.loc || '',
+        sku: row.sku || '',
+        lpn: row.lpn || '',
+        sistema: toNumber(row.cantidadSistema),
+        contado: toNumber(row.cantidadContada),
+        diferencia: delta,
+        alerta: row.alerta || ''
+      };
+    }
+
+    function saveManualIncident() {
+      const batchkey = [...new Set(comparedRows.map(r => r.batchkey).filter(Boolean))][0] || '';
+
+      const incident = {
+        id: makeIncidentId('manual'),
+        fecha: today(),
+        fechaCompromiso: $('incFechaCompromiso').value || '',
+        tipo: $('incTipo').value,
+        severidad: $('incSeveridad').value,
+        aplicaA: $('incAplica').value,
+        responsable: $('incResponsable').value.trim(),
+        estatus: $('incEstatus').value,
+        causa: $('incCausa').value,
+        accion: $('incAccion').value.trim(),
+        comentarios: $('incComentarios').value.trim(),
+        round: Number($('countRound')?.value || 1),
+        batchkey,
+        loc: '',
+        sku: '',
+        lpn: '',
+        sistema: 0,
+        contado: 0,
+        diferencia: 0,
+        alerta: 'INCIDENCIA MANUAL'
+      };
+
+      if (!incident.responsable && !incident.comentarios) {
+        return toast('Captura al menos el responsable o los comentarios');
+      }
+
+      addIncidents([incident]);
+      clearIncidentForm();
+      renderIncidents();
+      toast('Incidencia guardada');
+    }
+
+    function clearIncidentForm() {
+      $('incResponsable').value = '';
+      $('incFechaCompromiso').value = '';
+      $('incAccion').value = '';
+      $('incComentarios').value = '';
+      $('incEstatus').value = 'ABIERTA';
+      $('incSeveridad').value = 'MEDIA';
+      $('incAplica').value = 'OPERADOR DE CONTEO';
+      $('incTipo').value = 'DIFERENCIA DE CANTIDAD';
+      $('incCausa').value = 'ERROR DE CONTEO';
+    }
+
+    function renderIncidents() {
+      const search = ($('iSearch')?.value || '').toLowerCase().trim();
+      const status = $('iType')?.value || '';
+      const all = getIncidents();
+
+      const rows = all.filter(r => {
+        const text = [
+          r.tipo, r.batchkey, r.loc, r.sku, r.lpn,
+          r.responsable, r.aplicaA, r.causa, r.accion, r.comentarios
+        ].join(' ').toLowerCase();
+
+        return (!search || text.includes(search)) &&
+               (!status || r.estatus === status);
+      });
+
+      $('iTotal').textContent = fmt(all.length);
+      $('iHigh').textContent = fmt(all.filter(r => r.severidad === 'ALTA' || r.severidad === 'CRITICA').length);
+      $('iOpen').textContent = fmt(all.filter(r => r.estatus === 'ABIERTA' || r.estatus === 'EN INVESTIGACION').length);
+      $('iAction').textContent = fmt(all.filter(r => r.estatus === 'ACCION CORRECTIVA').length);
+      $('iClosed').textContent = fmt(all.filter(r => r.estatus === 'CERRADA').length);
+
+      $('incidentTable').innerHTML =
+        '<thead><tr>' +
+        '<th>FECHA</th><th>TIPO</th><th>SEVERIDAD</th><th>A QUIÉN SE APLICA</th>' +
+        '<th>RESPONSABLE</th><th>ESTATUS</th><th>CAUSA</th><th>ROUND</th>' +
+        '<th>BATCHKEY</th><th>LOC</th><th>SKU</th><th>LPN</th>' +
+        '<th>SISTEMA</th><th>CONTADO</th><th>DIF</th>' +
+        '<th>FECHA COMPROMISO</th><th>ACCIÓN</th><th>COMENTARIOS</th>' +
+        '</tr></thead><tbody>' +
+        rows.map(r => `<tr>
+          <td>${esc(r.fecha)}</td>
+          <td>${esc(r.tipo)}</td>
+          <td class="${r.severidad === 'CRITICA' || r.severidad === 'ALTA' ? 'bad' : 'warn'}">${esc(r.severidad)}</td>
+          <td>${esc(r.aplicaA)}</td>
+          <td>${esc(r.responsable)}</td>
+          <td>${esc(r.estatus)}</td>
+          <td>${esc(r.causa)}</td>
+          <td class=num>${fmt(r.round)}</td>
+          <td>${esc(r.batchkey)}</td>
+          <td>${esc(r.loc)}</td>
+          <td>${esc(r.sku)}</td>
+          <td>${esc(r.lpn)}</td>
+          <td class=num>${fmt(r.sistema, 2)}</td>
+          <td class=num>${fmt(r.contado, 2)}</td>
+          <td class="num ${Number(r.diferencia) === 0 ? 'goodText' : 'dangerText'}">${fmt(r.diferencia, 2)}</td>
+          <td>${esc(r.fechaCompromiso)}</td>
+          <td>${esc(r.accion)}</td>
+          <td>${esc(r.comentarios)}</td>
+        </tr>`).join('') +
+        '</tbody>';
+    }
+
+    function clearIncidents() {
+      if (!confirm('¿Borrar todo el registro de incidencias?')) return;
+      setIncidents([]);
+      renderIncidents();
+      toast('Registro de incidencias borrado');
+    }
+
+    function exportIncidents() {
+      const rows = getIncidents();
+      const head = [
+        'FECHA','TIPO','SEVERIDAD','A QUIEN SE APLICA','RESPONSABLE',
+        'ESTATUS','CAUSA','ROUND','BATCHKEY','LOC','SKU','LPN',
+        'SISTEMA','CONTADO','DIF','FECHA COMPROMISO','ACCION','COMENTARIOS'
+      ];
+
+      const csv = head.join(',') + '\n' +
+        rows.map(r => [
+          r.fecha,r.tipo,r.severidad,r.aplicaA,r.responsable,r.estatus,r.causa,r.round,
+          r.batchkey,r.loc,r.sku,r.lpn,r.sistema,r.contado,r.diferencia,
+          r.fechaCompromiso,r.accion,r.comentarios
+        ].map(v => '"' + String(v ?? '').replaceAll('"','""') + '"').join(',')).join('\n');
+
+      download('registro_incidencias_gxo.csv', csv, 'text/csv');
+    }
+
+    document.querySelectorAll('.side button').forEach(b => b.onclick = () => {
+      document.querySelectorAll('.side button').forEach(x => x.classList.remove('active'));
+      b.classList.add('active');
+      document.querySelectorAll('.section').forEach(x => x.classList.remove('active'));
+      $(b.dataset.tab).classList.add('active');
+
+      if (b.dataset.tab === 'dash') {
+        requestAnimationFrame(() => {
+          renderDashboard();
+    requestAnimationFrame(() => drawCharts(filteredHist()));
+    window.addEventListener('resize', () => {
+      const dash = $('dash');
+      if (dash && dash.classList.contains('active')) drawCharts(filteredHist());
+      if ($('carga')?.classList.contains('active')) drawCompareCharts();
+    });
+    renderIncidents();
+          requestAnimationFrame(() => drawCharts(filteredHist()));
+        });
+      }
+
+      if (b.dataset.tab === 'hist') renderHistory();
+      if (b.dataset.tab === 'incidencias') renderIncidents();
+    });
+    async function loadPlan(e) {let f = e.target.files[0]; if (!f) return; planRows = normalizeRows(await readAny(f), 'plan'); $('planStatus').innerHTML = `Conteo a realizar cargado: <b>${fmt(planRows.length)}</b> lineas. Batch: <b>${esc([...new Set(planRows.map(r => r.batchkey))][0] || '')}</b>`; toast('Archivo de conteo a realizar cargado')}
+    async function loadDone(e) {let f = e.target.files[0]; if (!f) return; doneRows = normalizeRows(await readAny(f), 'done'); $('doneStatus').innerHTML = `Conteo terminado cargado: <b>${fmt(doneRows.length)}</b> lineas. Batch: <b>${esc([...new Set(doneRows.map(r => r.batchkey))][0] || '')}</b>`; toast('Archivo de conteo terminado cargado')}
+    
+function compareFiles() {
+      if (!planRows.length || !doneRows.length) {
+        return toast('Primero sube los dos archivos');
+      }
+
+      const round = Number($('countRound').value);
+      const plan = aggregateRows(planRows);
+      const done = aggregateRows(doneRows);
+
+      const exact = new Map(plan.map(r => [key(r), r]));
+      const counted = new Map(done.map(r => [key(r), r]));
+      const allKeys = new Set([...exact.keys(), ...counted.keys()]);
+
+      comparedRows = [...allKeys].map(k => {
+        const p = exact.get(k);
+        const d = counted.get(k);
+
+        const row = {
+          clientid: d?.clientid || p?.clientid || '',
+          loc: d?.loc || p?.loc || '',
+          sku: d?.sku || p?.sku || '',
+          lpn: d?.lpn || p?.lpn || '',
+          batchkey: d?.batchkey || p?.batchkey || '',
+          cantidadSistema: toNumber(p?.cantidadSistema),
+          cantidadContada: toNumber(d?.cantidadContada),
+          round,
+          fecha: today(),
+          matchStatus: p && d ? 'MATCH' : p ? 'MISSING_IN_COUNT' : 'EXTRA_IN_COUNT'
+        };
+
+        row.week = weekNum(row.fecha);
+        row.month = monthKey(row.fecha);
+        row.diferencia = diff(row);
+        row.alerta = alertFor(row, round);
+
+        if (row.matchStatus === 'MISSING_IN_COUNT') row.alerta = 'LINEA FALTANTE';
+        if (row.matchStatus === 'EXTRA_IN_COUNT') row.alerta = 'LINEA NO PROGRAMADA';
+
+        return row;
+      });
+
+      // SOLO DIFERENCIAS: duplicados ya no generan ninguna incidencia.
+      const incidents = comparedRows
+        .map(incidentFromRow)
+        .filter(Boolean);
+
+      addIncidents(incidents);
+      renderCompare();
+      renderIncidents();
+
+      const m = metrics(comparedRows);
+      const missing = comparedRows.filter(r => r.matchStatus === 'MISSING_IN_COUNT').length;
+      const extra = comparedRows.filter(r => r.matchStatus === 'EXTRA_IN_COUNT').length;
+
+      toast(
+        `Comparativa terminada · ${fmt(m.lines)} líneas · ` +
+        `${fmt(m.ok)} OK · ${fmt(missing)} faltantes · ` +
+        `${fmt(extra)} no programadas · ${fmt(incidents.length)} incidencias`
+      );
+    }
+
+    function renderCompare() {
+      const c = a => comparedRows.filter(r => r.alerta === a).length;
+
+      $('b2').textContent = '2do conteo: ' + fmt(c('REALIZAR 2DO CONTEO'));
+      $('b3').textContent = '3er conteo: ' + fmt(c('REALIZAR 3ER CONTEO'));
+      $('bf').textContent = 'Diferencia final: ' + fmt(c('DIFERENCIA FINAL'));
+      $('bok').textContent = 'OK: ' + fmt(c('OK'));
+      $('blines').textContent = 'Lineas: ' + fmt(comparedRows.length);
+
+      const m = metrics(comparedRows);
+      const missing = comparedRows.filter(r => r.matchStatus === 'MISSING_IN_COUNT').length;
+      const extra = comparedRows.filter(r => r.matchStatus === 'EXTRA_IN_COUNT').length;
+      const dup = duplicateKeys([...planRows, ...doneRows]).length;
+
+      $('cmpIra').textContent = pct(m.ira);
+      $('cmpIla').textContent = pct(m.ila);
+      $('cmpLocs').textContent = fmt(m.locs);
+      $('cmpSkus').textContent = fmt(m.sku);
+      $('cmpDiff').textContent = fmt(m.dif, 2);
+
+      $('cmpMissing').textContent = 'Faltantes: ' + fmt(missing);
+      $('cmpExtra').textContent = 'No programadas: ' + fmt(extra);
+      $('cmpInc').textContent = 'Incidencias: ' + fmt(getIncidents().length);
+
+      $('compareTable').innerHTML = tableHtml(comparedRows, true);
+      renderPeriod(comparedRows, 'cmpPeriodTable');
+
+      requestAnimationFrame(() => {
+        drawCompareCharts();
+      });
+    }
+
+    function tableHtml(rows, alerts) {return '<thead><tr><th>CLIENTID</th><th>LOC</th><th>SKU</th><th>LPN</th><th>BATCHKEY</th><th>CANTIDAD SISTEMA</th><th>CANTIDAD CONTADA</th><th>DIF</th><th>ALERTA</th></tr></thead><tbody>' + rows.map(r => `<tr><td>${esc(r.clientid)}</td><td>${esc(r.loc)}</td><td>${esc(r.sku)}</td><td>${esc(r.lpn)}</td><td>${esc(r.batchkey)}</td><td class=num>${fmt(r.cantidadSistema, 2)}</td><td class=num>${fmt(r.cantidadContada, 2)}</td><td class="num ${isOk(r) ? 'goodText' : 'dangerText'}">${fmt(diff(r), 2)}</td><td class="${r.alerta === 'OK' ? 'ok' : r.alerta === 'DIFERENCIA FINAL' ? 'bad' : 'warn'}">${esc(r.alerta || '')}</td></tr>`).join('') + '</tbody>'}
+    function saveCompared() {if (!comparedRows.length) return toast('Primero compara'); setHist(getHist().concat(comparedRows.map(r => ({...r, savedAt: new Date().toISOString()})))); renderDashboard(); toast('Comparativa guardada al historial')}
+    function filteredHist() {let data = getHist(), fr = $('fFrom')?.value || '', to = $('fTo')?.value || '', b = ($('fBatch')?.value || '').toLowerCase(); return data.filter(r => (!fr || r.fecha >= fr) && (!to || r.fecha <= to) && (!b || String(r.batchkey).toLowerCase().includes(b)))}
+    function renderDashboard() {let data = filteredHist(), m = metrics(data); $('kIra').textContent = pct(m.ira); $('kIla').textContent = pct(m.ila); $('kQty').textContent = pct(m.qty); $('kLocs').textContent = fmt(m.locs); $('kSkus').textContent = fmt(m.sku); renderPeriod(data, 'periodTable'); drawCharts(data)}
+    function renderPeriod(data, id) {let body = '';['dia', 'semana', 'mes'].forEach(mode => {let g = {}; data.forEach(r => {let k = mode === 'dia' ? r.fecha : (mode === 'semana' ? `${String(r.fecha).slice(0, 4)}-W${String(r.week).padStart(2, '0')}` : r.month); (g[k] = g[k] || []).push(r)}); Object.keys(g).sort().forEach(k => {let arr = g[k], m = metrics(arr); body += `<tr><td>${mode}</td><td>${k}</td><td class=num>${fmt(arr.length)}</td><td class=num>${fmt(m.locs)}</td><td class=num>${fmt(m.sku)}</td><td class=num>${pct(m.ira)}</td><td class=num>${pct(m.ila)}</td><td class=num>${fmt(m.dif, 2)}</td></tr>`})}); $(id).innerHTML = '<thead><tr><th>Agrupacion</th><th>Periodo</th><th>Lineas</th><th>Ubicaciones contadas</th><th>SKU contados</th><th>IRA</th><th>ILA</th><th>DIF</th></tr></thead><tbody>' + body + '</tbody>'}
+
+    function groupByWeek(data) {let g = {}; data.forEach(r => {let k = `${String(r.fecha).slice(0, 4)}-W${String(r.week).padStart(2, '0')}`; (g[k] = g[k] || []).push(r)}); return Object.keys(g).sort().map(k => ({k, ...metrics(g[k])}))}
+    function drawCharts(data) {
+      let arr = groupByWeek(data);
+      drawComboAccuracy('chart1', arr);
+      drawDiffTrend('chart2', arr);
+      drawTopLocationDiff('chart3', data);
+      drawAlertDonut('chart4', data);
+    }
+    function setupCanvas(id) {
+      const c = $(id);
+      if (!c) return null;
+
+      initChartEvents(id);
+      CHART_HITS[id] = [];
+
+      const parent = c.parentElement;
+      const width = Math.max(320, (parent?.clientWidth || 640) - 36);
+      const height = 270;
+
+      c.width = width;
+      c.height = height;
+
+      const ctx = c.getContext('2d');
+      ctx.clearRect(0, 0, width, height);
+
+      return {c, ctx, w: width, h: height};
+    }
+function roundRect(ctx, x, y, w, h, r, fill, stroke) {ctx.beginPath(); ctx.moveTo(x + r, y); ctx.arcTo(x + w, y, x + w, y + h, r); ctx.arcTo(x + w, y + h, x, y + h, r); ctx.arcTo(x, y + h, x, y, r); ctx.arcTo(x, y, x + w, y, r); ctx.closePath(); if (fill) ctx.fill(); if (stroke) ctx.stroke()}
+
+    function drawGrid(ctx, w, h, max, labelPct = false) {ctx.strokeStyle = '#e5e7eb'; ctx.lineWidth = 1; ctx.fillStyle = '#64748b'; ctx.font = '11px Arial'; ctx.textAlign = 'right'; for (let i = 0; i <= 4; i++) {let y = 22 + i * (h - 58) / 4; ctx.beginPath(); ctx.moveTo(42, y); ctx.lineTo(w - 12, y); ctx.stroke(); let val = max - (max * i / 4); ctx.fillText(labelPct ? pct(val) : fmt(val), 38, y + 4)} ctx.textAlign = 'left'}
+
+    function drawLegend(ctx, w, items) {let x = 50, y = 14; ctx.font = '12px Arial'; items.forEach(it => {ctx.fillStyle = it.color; roundRect(ctx, x, y - 9, 14, 10, 3, true, false); ctx.fillStyle = '#334155'; ctx.fillText(it.label, x + 20, y); x += 95})}
+
+    function drawComboAccuracy(id, arr) {let o = setupCanvas(id); if (!o) return; let {ctx, w, h} = o; drawGrid(ctx, w, h, 1, true); drawLegend(ctx, w, [{label: 'IRA', color: '#2563eb'}, {label: 'ILA', color: '#0f766e'}]); let n = Math.max(1, arr.length), gap = (w - 70) / n, bw = Math.max(8, Math.min(26, gap * .32)); arr.forEach((d, i) => {let x = 48 + i * gap + gap * .18, base = h - 35; let iraH = (h - 70) * d.ira, ilaH = (h - 70) * d.ila; let g1 = ctx.createLinearGradient(0, base - iraH, 0, base); g1.addColorStop(0, '#60a5fa'); g1.addColorStop(1, '#1d4ed8'); ctx.fillStyle = g1; roundRect(ctx, x, base - iraH, bw, iraH, 5, true, false); let g2 = ctx.createLinearGradient(0, base - ilaH, 0, base); g2.addColorStop(0, '#5eead4'); g2.addColorStop(1, '#0f766e'); ctx.fillStyle = g2; roundRect(ctx, x + bw + 4, base - ilaH, bw, ilaH, 5, true, false); ctx.fillStyle = '#475569'; ctx.font = '10px Arial'; ctx.save(); ctx.translate(x, h - 12); ctx.rotate(-.45); ctx.fillText(d.k, 0, 0); ctx.restore(); addHit(id, x, base - Math.max(iraH, ilaH), bw * 2 + 4, Math.max(iraH, ilaH) + 4, `<b>${d.k}</b><br>IRA: ${pct(d.ira)}<br>ILA: ${pct(d.ila)}<br>Líneas: ${fmt(d.lines)}<br>DIF: ${fmt(d.dif, 2)}`, '', '', `${d.k} IRA ${pct(d.ira)} ILA ${pct(d.ila)}`)})}
+
+    function drawDiffTrend(id, arr) {let o = setupCanvas(id); if (!o) return; let {ctx, w, h} = o; let max = Math.max(1, ...arr.map(x => x.abs)); drawGrid(ctx, w, h, max, false); drawLegend(ctx, w, [{label: 'DIF ABS', color: '#ff3300'}, {label: 'Tendencia', color: '#111827'}]); let n = Math.max(1, arr.length), gap = (w - 70) / n, bw = Math.max(10, Math.min(32, gap * .45)), pts = []; arr.forEach((d, i) => {let x = 48 + i * gap + gap * .22, base = h - 35, valH = (h - 70) * d.abs / max; let grad = ctx.createLinearGradient(0, base - valH, 0, base); grad.addColorStop(0, '#fb923c'); grad.addColorStop(1, '#dc2626'); ctx.fillStyle = grad; roundRect(ctx, x, base - valH, bw, valH, 6, true, false); pts.push([x + bw / 2, base - valH]); ctx.fillStyle = '#475569'; ctx.font = '10px Arial'; ctx.save(); ctx.translate(x, h - 12); ctx.rotate(-.45); ctx.fillText(d.k, 0, 0); ctx.restore(); addHit(id, x, base - valH, bw, Math.max(10, valH), `<b>${d.k}</b><br>Diferencia ABS: ${fmt(d.abs, 2)}<br>DIF neta: ${fmt(d.dif, 2)}<br>Líneas: ${fmt(d.lines)}`, '', '', `${d.k} Diferencia ${fmt(d.abs, 2)}`)}); ctx.strokeStyle = '#111827'; ctx.lineWidth = 2; ctx.beginPath(); pts.forEach((p, i) => i ? ctx.lineTo(p[0], p[1]) : ctx.moveTo(p[0], p[1])); ctx.stroke(); pts.forEach(p => {ctx.fillStyle = '#fff'; ctx.strokeStyle = '#111827'; ctx.lineWidth = 2; ctx.beginPath(); ctx.arc(p[0], p[1], 4, 0, Math.PI * 2); ctx.fill(); ctx.stroke()})}
+
+    function drawTopLocationDiff(id, data) {let o = setupCanvas(id); if (!o) return; let {ctx, w, h} = o; let loc = {}; data.forEach(r => loc[r.loc] = (loc[r.loc] || 0) + Math.abs(diff(r))); let arr = Object.keys(loc).map(k => ({k, v: loc[k]})).filter(x => x.v > 0).sort((a, b) => b.v - a.v).slice(0, 10); if (!arr.length) {ctx.fillStyle = '#94a3b8'; ctx.font = '16px Arial'; ctx.fillText('Sin diferencias por ubicacion', 50, 120); return } let max = Math.max(1, ...arr.map(x => x.v)); ctx.font = '11px Arial'; arr.forEach((d, i) => {let y = 28 + i * 22, barW = (w - 190) * d.v / max; ctx.fillStyle = '#334155'; ctx.textAlign = 'right'; ctx.fillText(d.k, 132, y + 11); let grad = ctx.createLinearGradient(145, y, 145 + barW, y); grad.addColorStop(0, '#fb923c'); grad.addColorStop(1, '#dc2626'); ctx.fillStyle = grad; roundRect(ctx, 145, y, barW, 15, 7, true, false); ctx.fillStyle = '#0f172a'; ctx.textAlign = 'left'; ctx.fillText(fmt(d.v, 0), 153 + barW, y + 11); addHit(id, 145, y, Math.max(40, barW), 18, `<b>${d.k}</b><br>Diferencia acumulada: ${fmt(d.v, 2)}`, 'loc', d.k, `${d.k} diferencia ${fmt(d.v, 2)}`)}); ctx.textAlign = 'left'}
+
+    function drawAlertDonut(id, data) {let alerts = {}; data.forEach(r => alerts[r.alerta || 'OK'] = (alerts[r.alerta || 'OK'] || 0) + 1); let labels = Object.keys(alerts), vals = labels.map(k => alerts[k]); drawDoughnut(id, vals, labels, ['#16a34a', '#f59e0b', '#fb923c', '#dc2626', '#2563eb'], false)}
+
+    function drawCompareCharts() {
+      if (!$('cmpGauge') || !comparedRows.length) return;
+      let m = metrics(comparedRows), alerts = {}; comparedRows.forEach(r => alerts[r.alerta] = (alerts[r.alerta] || 0) + 1);
+      drawDoughnut('cmpGauge', [m.ira, m.ila, m.qty], ['IRA', 'ILA', 'Qty Acc'], ['#2563eb', '#0f766e', '#16a34a'], true);
+      drawDoughnut('cmpAlerts', Object.values(alerts), Object.keys(alerts), ['#16a34a', '#f59e0b', '#fb923c', '#dc2626'], false);
+    }
+    function drawDoughnut(id, vals, labels, colors, isPct) {let o = setupCanvas(id); if (!o) return; let {ctx, w, h} = o; let total = vals.reduce((a, b) => a + Number(b || 0), 0) || 1, cx = w * .33, cy = h * .50, r = Math.min(w, h) * .31; let start = -Math.PI / 2; ctx.shadowColor = 'rgba(15,23,42,.18)'; ctx.shadowBlur = 10; vals.forEach((v, i) => {let ang = (Number(v || 0) / total) * Math.PI * 2; ctx.beginPath(); ctx.moveTo(cx, cy); ctx.fillStyle = colors[i % colors.length]; ctx.arc(cx, cy, r, start, start + ang); ctx.closePath(); ctx.fill(); start += ang}); ctx.shadowBlur = 0; ctx.beginPath(); ctx.fillStyle = '#fff'; ctx.arc(cx, cy, r * .60, 0, Math.PI * 2); ctx.fill(); ctx.fillStyle = '#0f172a'; ctx.font = '900 18px Arial'; ctx.textAlign = 'center'; ctx.fillText(isPct ? 'Accuracy' : 'Total', cx, cy - 5); ctx.font = '900 18px Arial'; ctx.fillText(isPct ? pct(vals[0]) : fmt(total), cx, cy + 18); ctx.textAlign = 'left'; labels.forEach((lab, i) => {let y = 36 + i * 30; ctx.fillStyle = colors[i % colors.length]; roundRect(ctx, w * .64, y - 12, 16, 16, 4, true, false); ctx.fillStyle = '#334155'; ctx.font = '12px Arial'; let value = isPct ? pct(vals[i]) : fmt(vals[i]); ctx.fillText(lab + ': ' + value, w * .64 + 24, y); addHit(id, w * .64, y - 16, w * .34, 24, `<b>${lab}</b><br>${isPct ? 'Porcentaje' : 'Total'}: ${value}`, '', '', `${lab}: ${value}`)}); addHit(id, cx - r, cy - r, r * 2, r * 2, `<b>Resumen</b><br>${labels.map((l, i) => l + ': ' + (isPct ? pct(vals[i]) : fmt(vals[i]))).join('<br>')}`, '', '', 'Resumen gráfica')}
+    function renderHistory() {let s = ($('hSearch').value || '').toLowerCase(), a = $('hAlert').value; let rows = getHist().filter(r => (!a || r.alerta === a) && (!s || [r.clientid, r.loc, r.sku, r.lpn, r.batchkey, r.alerta].join(' ').toLowerCase().includes(s))); $('histTable').innerHTML = tableHtml(rows, true)}
+    function exportAlerts() {exportRows(comparedRows, 'alertas_conteo.csv')} function exportHistory() {exportRows(getHist(), 'historial_conteos.csv')}
+    function exportRows(rows, name) {let head = ['CLIENTID', 'LOC', 'SKU', 'LPN', 'BATCHKEY', 'CANTIDAD SISTEMA', 'CANTIDAD CONTADA', 'DIF', 'ALERTA', 'FECHA', 'SEMANA', 'MES']; let csv = head.join(',') + '\n' + rows.map(r => [r.clientid, r.loc, r.sku, r.lpn, r.batchkey, r.cantidadSistema, r.cantidadContada, diff(r), r.alerta, r.fecha, r.week, r.month].map(v => '"' + String(v ?? '').replaceAll('"', '""') + '"').join(',')).join('\n'); download(name, csv, 'text/csv')}
+    function downloadBackup() {download('respaldo_conteos_gxo.json', JSON.stringify(getHist()), 'application/json')} function importBackup(e) {let f = e.target.files[0]; if (!f) return; let rd = new FileReader(); rd.onload = () => {setHist(JSON.parse(rd.result)); renderDashboard(); toast('Respaldo importado')}; rd.readAsText(f)} function clearHistory() {if (confirm('Borrar historial?')) {setHist([]); renderDashboard(); renderHistory(); toast('Historial borrado')} } function download(n, c, t) {let a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([c], {type: t})); a.download = n; a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 1000)}
+    function preparePrint(lines) {lines = lines || []; let f = lines[0] || {}, m = metrics(lines), pd = (f.fecha || today()).split('-').reverse().join('/'); $('printSheet').innerHTML = `<div class="ph"><div class="plogo"><div><div class="gxot">GXO</div><div style="font-size:11px;font-weight:900">Logistics at full potential</div></div></div><div class="ptitle">CONTEOS CÍCLICOS</div><div class="pdate">${pd}</div></div><div class="band">FORMATO DE CONTEO CÍCLICO · REPORTE DE EXACTITUD</div><div class="meta"><div class="lab">SITIO:</div><div class="val">TULTITLAN</div><div class="lab">ÁREA:</div><div class="val">INVENTARIOS</div><div class="lab">RESPONSABLE:</div><div></div><div class="lab">BATCHKEY</div><div class="val">${esc(f.batchkey || '')}</div><div class="lab">FECHA PROGRAMADA:</div><div class="val">${pd}</div><div class="lab">FIRMA:</div><div></div><div class="lab green">LÍNEAS:</div><div class="val green">${fmt(lines.length)}</div><div class="lab green">PIEZAS SISTEMA:</div><div class="val green">${fmt(m.sys)}</div><div class="lab green">PIEZAS FÍSICAS:</div><div class="val green">${fmt(m.phy)}</div><div class="lab green">DIFERENCIAS:</div><div class="val green">${fmt(m.dif)}</div></div><div class="print-summary"><div class="ps1">IRA<br>${pct(m.ira)}</div><div class="ps2">ILA<br>${pct(m.ila)}</div><div class="ps3">Qty Accuracy<br>${pct(m.qty)}</div><div class="ps4">Ubicaciones<br>${fmt(m.locs)}</div><div class="ps5">% Conteo OK<br>${pct(lines.length ? lines.filter(isOk).length / lines.length : 0)}</div></div><table class="pt"><thead><tr><th>SKU</th><th>BATCHKEY</th><th>LPN</th><th>LOC</th><th>COUNT SISTEMA</th><th>COUNT FÍSICO</th><th>DIF</th><th>% CONTEO</th><th>ESTATUS / COMENTARIOS</th></tr></thead><tbody>${lines.map(r => `<tr><td>${esc(r.sku)}</td><td>${esc(r.batchkey)}</td><td>${esc(r.lpn)}</td><td>${esc(r.loc)}</td><td>${fmt(r.cantidadSistema)}</td><td>${fmt(r.cantidadContada)}</td><td>${fmt(diff(r))}</td><td>${pct(Number(r.cantidadSistema) ? Number(r.cantidadContada) / Number(r.cantidadSistema) : 0)}</td><td class="${isOk(r) ? 'ok' : 'bad'}">${esc(r.alerta)}</td></tr>`).join('')}</tbody></table>`}
+
+    function excelHtmlTable(rows) {return `<table><thead><tr><th>CLIENTID</th><th>LOC</th><th>SKU</th><th>LPN</th><th>BATCHKEY</th><th>CANTIDAD SISTEMA</th><th>CANTIDAD CONTADA</th><th>DIF</th><th>% CONTEO</th><th>ALERTA</th><th>FECHA</th><th>SEMANA</th><th>MES</th></tr></thead><tbody>${rows.map(r => `<tr><td>${esc(r.clientid)}</td><td>${esc(r.loc)}</td><td>${esc(r.sku)}</td><td>${esc(r.lpn)}</td><td>${esc(r.batchkey)}</td><td class=num>${Number(r.cantidadSistema || 0)}</td><td class=num>${Number(r.cantidadContada || 0)}</td><td class=num>${diff(r)}</td><td>${pct(Number(r.cantidadSistema) ? Number(r.cantidadContada) / Number(r.cantidadSistema) : 0)}</td><td class="${r.alerta === 'OK' ? 'xlok' : r.alerta === 'DIFERENCIA FINAL' ? 'xlbad' : 'xlwarn'}">${esc(r.alerta || '')}</td><td>${r.fecha || ''}</td><td>${r.week || ''}</td><td>${r.month || ''}</td></tr>`).join('')}</tbody></table>`}
+    function periodRowsForExcel(data) {let body = '';['dia', 'semana', 'mes'].forEach(mode => {let g = {}; data.forEach(r => {let k = mode === 'dia' ? r.fecha : (mode === 'semana' ? `${String(r.fecha).slice(0, 4)}-W${String(r.week).padStart(2, '0')}` : r.month); (g[k] = g[k] || []).push(r)}); Object.keys(g).sort().forEach(k => {let arr = g[k], m = metrics(arr); body += `<tr><td>${mode}</td><td>${k}</td><td>${arr.length}</td><td>${m.locs}</td><td>${m.sku}</td><td>${pct(m.ira)}</td><td>${pct(m.ila)}</td><td>${m.dif}</td></tr>`})}); return body}
+
+    function excelChartTables(rows) {let week = {}; rows.forEach(r => {let k = `${String(r.fecha).slice(0, 4)}-W${String(r.week).padStart(2, '0')}`; (week[k] = week[k] || []).push(r)}); let wkRows = Object.keys(week).sort().map(k => ({k, ...metrics(week[k])})); let maxAbs = Math.max(1, ...wkRows.map(x => x.abs)); let alerts = {}; rows.forEach(r => alerts[r.alerta || 'OK'] = (alerts[r.alerta || 'OK'] || 0) + 1); let maxAlert = Math.max(1, ...Object.values(alerts)); let loc = {}; rows.forEach(r => loc[r.loc] = (loc[r.loc] || 0) + Math.abs(diff(r))); let top = Object.keys(loc).map(k => ({k, v: loc[k]})).filter(x => x.v > 0).sort((a, b) => b.v - a.v).slice(0, 10); let maxLoc = Math.max(1, ...top.map(x => x.v)); let bar = (v, max, color) => `<div style="background:#e5e7eb;width:180px;height:14px"><div style="background:${color};width:${Math.max(2, Math.round((v / max) * 180))}px;height:14px"></div></div>`; let html = '<table><tr><td colspan="8" class="section">Graficas compatibles con Excel</td></tr><tr><th>Semana</th><th>IRA</th><th>Grafica IRA</th><th>ILA</th><th>Grafica ILA</th><th>DIF ABS</th><th>Grafica DIF</th><th>Lineas</th></tr>'; wkRows.forEach(x => {html += `<tr><td>${x.k}</td><td>${pct(x.ira)}</td><td>${bar(x.ira, 1, '#2563eb')}</td><td>${pct(x.ila)}</td><td>${bar(x.ila, 1, '#0f766e')}</td><td>${fmt(x.abs, 2)}</td><td>${bar(x.abs, maxAbs, '#dc2626')}</td><td>${x.lines}</td></tr>`}); html += '</table><br><table><tr><th>Alerta</th><th>Total</th><th>Grafica</th></tr>'; Object.keys(alerts).forEach(k => {html += `<tr><td>${k}</td><td>${alerts[k]}</td><td>${bar(alerts[k], maxAlert, k === 'OK' ? '#16a34a' : k === 'DIFERENCIA FINAL' ? '#dc2626' : '#f59e0b')}</td></tr>`}); html += '</table><br><table><tr><th>Top ubicacion con diferencia</th><th>DIF ABS</th><th>Grafica</th></tr>'; top.forEach(x => {html += `<tr><td>${x.k}</td><td>${fmt(x.v, 2)}</td><td>${bar(x.v, maxLoc, '#ff3300')}</td></tr>`}); html += '</table>'; return html}
+
+    // =========================
+    // REPORTES PDF POR DIA, SEMANA Y MES
+    // =========================
+    function exportPeriodPdf(mode) {
+      let rows = filteredHist();
+      if (!rows.length) return toast('No hay informacion en el filtro actual para generar PDF');
+      let label = mode === 'dia' ? 'DIARIO' : mode === 'semana' ? 'SEMANAL' : 'MENSUAL';
+      let periods = periodSummary(rows, mode);
+      let html = buildPdfReportHtml(rows, periods, label);
+      let w = window.open('', '_blank');
+      if (!w) return toast('Permite ventanas emergentes para generar el PDF');
+      w.document.open();
+      w.document.write(html);
+      w.document.close();
+      setTimeout(() => {w.focus(); w.print();}, 500);
+      toast('Reporte PDF abierto. Elige Guardar como PDF.');
+    }
+    function buildPdfReportHtml(rows, periods, label) {
+      let m = metrics(rows), alerts = alertSummary(rows), top = topLocations(rows);
+      let date = new Date().toLocaleString('es-MX');
+      let periodRows = periods.map(x => `<tr><td>${x.periodo}</td><td>${fmt(x.lines)}</td><td>${fmt(x.locs)}</td><td>${fmt(x.sku)}</td><td>${fmt(x.sys)}</td><td>${fmt(x.phy)}</td><td class="${x.dif === 0 ? 'ok' : 'bad'}">${fmt(x.dif)}</td><td>${pct(x.ira)}</td><td>${pct(x.ila)}</td><td>${pct(x.qty)}</td></tr>`).join('');
+      let alertRows = Object.keys(alerts).map(k => `<tr><td>${k}</td><td>${fmt(alerts[k])}</td><td>${pct(alerts[k] / Math.max(1, m.lines))}</td></tr>`).join('');
+      let topRows = (top.length ? top : [{k: 'Sin diferencias', v: 0}]).map((x, i) => `<tr><td>${i + 1}</td><td>${esc(x.k)}</td><td>${fmt(x.v)}</td><td>${i < 3 && x.v > 0 ? 'Alta' : x.v > 0 ? 'Media' : '-'}</td></tr>`).join('');
+      let diffs = rows.filter(r => !isOk(r)).slice(0, 35);
+      let diffRows = (diffs.length ? diffs : [null]).map(r => r ? `<tr><td>${esc(r.alerta)}</td><td>${esc(r.loc)}</td><td>${esc(r.sku)}</td><td>${esc(r.lpn)}</td><td>${esc(r.batchkey)}</td><td>${fmt(r.cantidadSistema)}</td><td>${fmt(r.cantidadContada)}</td><td>${fmt(diff(r))}</td></tr>` : `<tr><td colspan="8" style="text-align:center;color:#166534;font-weight:900">Sin diferencias en el filtro seleccionado</td></tr>`).join('');
+      return `<!doctype html><html><head><meta charset="utf-8"><title>GXO Reporte ${label}</title><style>
+    @page{size:letter landscape;margin:10mm}body{font-family:Segoe UI,Arial,sans-serif;color:#0f172a;margin:0;background:#fff}.page{padding:0}.header{display:grid;grid-template-columns:180px 1fr 220px;border:2px solid #111827}.logo{display:flex;align-items:center;justify-content:center;border-right:2px solid #111827}.gxo{font-size:48px;font-weight:900;color:#ff3300;letter-spacing:-3px}.title{display:flex;align-items:center;justify-content:center;text-align:center;font-weight:900;font-size:24px;color:#111827}.meta{border-left:2px solid #111827;padding:10px;font-size:12px}.band{background:linear-gradient(90deg,#ff3300,#111827);color:white;font-weight:900;text-align:center;padding:8px;border-left:2px solid #111827;border-right:2px solid #111827;border-bottom:2px solid #111827}.kpis{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin:12px 0}.kpi{border-radius:12px;color:white;padding:10px;text-align:center;font-weight:900}.kpi span{display:block;font-size:11px;text-transform:uppercase}.kpi b{font-size:22px}.b{background:#2563eb}.g{background:#0f766e}.t{background:#16a34a}.o{background:#f97316}.r{background:#dc2626}.n{background:#334155}.section{background:#111827;color:white;font-weight:900;padding:7px 10px;border-radius:8px 8px 0 0;margin-top:12px}table{width:100%;border-collapse:collapse;font-size:11px}th{background:#79c9dd;color:#000;border:1px solid #111;padding:6px;text-transform:uppercase}td{border:1px solid #94a3b8;padding:5px;vertical-align:middle}tr:nth-child(even) td{background:#f8fafc}.ok{background:#dcfce7!important;color:#166534;font-weight:900}.bad{background:#fee2e2!important;color:#991b1b;font-weight:900}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}.foot{margin-top:12px;font-size:10px;color:#475569;text-align:right}.avoid{break-inside:avoid}.small{font-size:10px;color:#475569}@media print{button{display:none}.page{padding:0}.section{print-color-adjust:exact;-webkit-print-color-adjust:exact}.kpi,.band,th{print-color-adjust:exact;-webkit-print-color-adjust:exact}}
+  
+
+/* =========================
+   V11 - Rediseño estético PDF only
+   ========================= */
+:root{--bg:#f4f7fb;--panel:#ffffff;--ink:#0f172a;--muted:#64748b;--gxo:#ff3300;--blue:#2563eb;--cyan:#06b6d4;--green:#16a34a;--red:#dc2626;--amber:#f59e0b;--slate:#111827;--soft:#e2e8f0;--radius:22px;--shadow2:0 18px 42px rgba(15,23,42,.12)}
+body{background:linear-gradient(135deg,#f8fafc 0%,#eef6ff 48%,#fff7ed 100%)!important;color:var(--ink)}
+.app{background:transparent}.side{width:292px;background:linear-gradient(180deg,#0f172a 0%,#1f2937 52%,#111827 100%);padding:26px 22px;border-right:1px solid rgba(255,255,255,.08)}
+.logo{border-radius:18px;box-shadow:0 12px 28px rgba(0,0,0,.25);width:172px}.tag{border-radius:0 0 14px 14px;width:172px}.side h2{margin-top:28px;letter-spacing:.2px}.side button{border:1px solid transparent;padding:13px 14px;border-radius:16px;margin:8px 0;transition:.18s ease}.side button.active,.side button:hover{background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.16);transform:translateX(3px)}
+.content{max-width:1720px;padding:28px}.page-hero{display:flex;align-items:center;justify-content:space-between;gap:18px;margin-bottom:20px;padding:26px;border-radius:28px;background:linear-gradient(135deg,#111827 0%,#1d4ed8 62%,#ff3300 125%);color:white;box-shadow:var(--shadow2);position:relative;overflow:hidden}.page-hero:after{content:"";position:absolute;right:-80px;top:-80px;width:260px;height:260px;border-radius:99px;background:rgba(255,255,255,.12)}.page-hero h1{margin:3px 0 8px;font-size:34px;letter-spacing:-.7px}.page-hero p{margin:0;color:#dbeafe;font-size:15px}.eyebrow{text-transform:uppercase;font-size:12px!important;font-weight:900;letter-spacing:.14em;color:#fed7aa!important}.hero-chip{position:relative;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.28);padding:12px 16px;border-radius:999px;font-weight:900;white-space:nowrap}
+.card{border-radius:var(--radius)!important;border:1px solid rgba(148,163,184,.22)!important;background:rgba(255,255,255,.88)!important;box-shadow:var(--shadow2)!important}.control-panel{display:flex;align-items:flex-end;justify-content:space-between;background:rgba(255,255,255,.94)!important}.field input,.field select{border:1px solid #dbe3ef!important;border-radius:14px!important;background:#f8fafc!important}.btn{border-radius:14px!important;padding:11px 16px!important;box-shadow:0 8px 16px rgba(15,23,42,.10);transition:.18s ease}.btn:hover{transform:translateY(-1px);filter:brightness(1.02)}.pdfbtn{background:linear-gradient(135deg,#ff3300,#7c2d12)!important;color:#fff!important}.xlbtn{display:none!important}
+.kpis{grid-template-columns:repeat(5,minmax(170px,1fr));gap:18px}.kpis>.card{min-height:124px;padding:20px!important}.kpis>.card:before{width:8px!important;background:linear-gradient(180deg,#ff3300,#2563eb,#0f766e)!important}.label{color:#64748b!important;font-size:11px!important;letter-spacing:.08em}.value{font-size:34px!important;letter-spacing:-1.2px;color:#0f172a}.chart{border-radius:24px!important;height:380px!important;background:linear-gradient(180deg,#fff,#f8fbff)!important}.chart h3{font-size:17px}.chart-help{background:#eff6ff;padding:7px 10px;border-radius:999px;display:inline-block;margin-bottom:4px;color:#31577f!important}.table-wrap{border-radius:18px!important;border:1px solid #dbeafe!important}th{background:#111827!important;color:#fff!important;border-color:#334155!important}td{border-color:#e2e8f0!important}tr:nth-child(even) td{background:#f8fafc}.section h2,.card h2,.card h3{letter-spacing:-.2px}.drop{background:linear-gradient(180deg,#fff,#f8fafc)!important;border:1px dashed #93c5fd!important}.note{background:#fff7ed!important;border:1px solid #fed7aa!important;color:#7c2d12}.badge{border-radius:999px!important;padding:8px 12px!important}
+@media(max-width:1000px){.page-hero{display:block}.hero-chip{display:inline-block;margin-top:14px}.kpis{grid-template-columns:1fr}.content{padding:16px}.side{width:100%}}
+</style></head><body><div class="page"><div class="header"><div class="logo"><div><div class="gxo">GXO</div><div class="small">Logistics at full potential</div></div></div><div class="title">REPORTE ${label} DE CONTEOS CÍCLICOS</div><div class="meta"><b>Generado:</b><br>${date}<br><br><b>Periodo:</b><br>${label}<br><br><b>Registros:</b> ${fmt(m.lines)}</div></div><div class="band">CONTROL DE INVENTARIOS · IRA · ILA · CANTIDAD SISTEMA VS CONTADA</div><div class="kpis"><div class="kpi b"><span>IRA</span><b>${pct(m.ira)}</b></div><div class="kpi g"><span>ILA</span><b>${pct(m.ila)}</b></div><div class="kpi t"><span>Qty Accuracy</span><b>${pct(m.qty)}</b></div><div class="kpi o"><span>Ubicaciones</span><b>${fmt(m.locs)}</b></div><div class="kpi n"><span>SKU</span><b>${fmt(m.sku)}</b></div><div class="kpi r"><span>Diferencia</span><b>${fmt(m.dif)}</b></div></div><div class="section">Resumen por periodo</div><table><thead><tr><th>Periodo</th><th>Líneas</th><th>Ubicaciones</th><th>SKU</th><th>Sistema</th><th>Contada</th><th>DIF</th><th>IRA</th><th>ILA</th><th>Qty Acc.</th></tr></thead><tbody>${periodRows}</tbody></table><div class="grid2"><div class="avoid"><div class="section">Resumen de alertas</div><table><thead><tr><th>Alerta</th><th>Total</th><th>%</th></tr></thead><tbody>${alertRows}</tbody></table></div><div class="avoid"><div class="section">Top ubicaciones con diferencia</div><table><thead><tr><th>#</th><th>LOC</th><th>DIF ABS</th><th>Prioridad</th></tr></thead><tbody>${topRows}</tbody></table></div></div><div class="section">Diferencias principales y seguimiento</div><table><thead><tr><th>Alerta</th><th>LOC</th><th>SKU</th><th>LPN</th><th>Batchkey</th><th>Sistema</th><th>Contada</th><th>DIF</th></tr></thead><tbody>${diffRows}</tbody></table><div class="foot">Reporte generado desde dashboard GXO Conteos Cíclicos. Si existen diferencias, realizar seguimiento según alerta.</div></div></body></html>`;
+    }
+    // =========================
+    // HELPERS DE REPORTES PDF
+    // =========================
+    function periodSummary(rows, mode) {
+      let modes = mode === 'general' ? ['dia', 'semana', 'mes'] : [mode];
+      let out = [];
+      modes.forEach(md => {
+        let g = {};
+        rows.forEach(r => {
+          let k = md === 'dia' ? r.fecha : (md === 'semana' ? `${String(r.fecha).slice(0, 4)}-W${String(r.week).padStart(2, '0')}` : r.month);
+          (g[k] = g[k] || []).push(r);
+        });
+        Object.keys(g).sort().forEach(k => {
+          let arr = g[k], mm = metrics(arr);
+          out.push({
+            group: md, periodo: k, ...mm,
+            ok: arr.filter(x => x.alerta === 'OK').length,
+            c2: arr.filter(x => x.alerta === 'REALIZAR 2DO CONTEO').length,
+            c3: arr.filter(x => x.alerta === 'REALIZAR 3ER CONTEO').length,
+            final: arr.filter(x => x.alerta === 'DIFERENCIA FINAL').length
+          });
+        });
+      });
+      return out;
+    }
+    function alertSummary(rows) {
+      let a = {'OK': 0, 'REALIZAR 2DO CONTEO': 0, 'REALIZAR 3ER CONTEO': 0, 'DIFERENCIA FINAL': 0};
+      rows.forEach(r => a[r.alerta || 'OK'] = (a[r.alerta || 'OK'] || 0) + 1);
+      return a;
+    }
+    function topLocations(rows) {
+      let loc = {};
+      rows.forEach(r => loc[r.loc] = (loc[r.loc] || 0) + Math.abs(diff(r)));
+      return Object.keys(loc).map(k => ({k, v: loc[k]})).filter(x => x.v > 0).sort((a, b) => b.v - a.v).slice(0, 15);
+    }
+    function normalizeRows(rows, type) {return rows.map(o => {let r = {clientid: pick(o, ['CLIENTID', 'CLIENT ID', 'CLIENTE']), loc: pick(o, ['LOC', 'LOCATION', 'UBICACION', 'UBICACIÓN']), sku: pick(o, ['SKU', 'ITEM', 'ARTICULO', 'ARTÍCULO']), lpn: pick(o, ['LPN']), batchkey: pick(o, ['BATCHKEY', 'BATCH KEY', 'BATCH']), cantidadSistema: Number(pick(o, ['CANTIDAD SISTEMA', 'CANTIDADSISTEMA', 'SISTEMA', 'ON HAND', 'WMS']) || 0), cantidadContada: type === 'done' ? Number(pick(o, ['CANTIDAD CONTADA', 'CANTIDADCONTADA', 'CONTADA', 'FISICO', 'FÍSICO', 'PHYSICAL']) || 0) : 0, fecha: today()}; r.week = weekNum(r.fecha); r.month = monthKey(r.fecha); return r}).filter(r => r.loc && r.sku && r.batchkey)}
+    function norm(h) {return String(h || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]/g, '')} function pick(o, names) {let m = {}; Object.keys(o).forEach(k => m[norm(k)] = o[k]); for (let n of names) {let k = norm(n); if (k in m) return m[k]} return ''}
+    function parseCSVLine(line) {let out = [], cur = '', q = false; for (let c of line) {if (c === '"') {q = !q; continue} if (c === ',' && !q) {out.push(cur); cur = ''; continue} cur += c} out.push(cur); return out} async function readAny(file) {if (file.name.toLowerCase().endsWith('.csv')) return csvObjs(await file.text()); return readXlsx(file)} function csvObjs(txt) {let lines = txt.trim().split(/\r?\n/).filter(Boolean), head = parseCSVLine(lines[0]); return lines.slice(1).map(l => {let vals = parseCSVLine(l), o = {}; head.forEach((h, i) => o[h] = vals[i]); return o})}
+    async function readXlsx(file) {let entries = await unzip(await file.arrayBuffer()), shared = []; if (entries['xl/sharedStrings.xml']) {let d = new DOMParser().parseFromString(entries['xl/sharedStrings.xml'], 'application/xml'); shared = [...d.getElementsByTagName('si')].map(si => [...si.getElementsByTagName('t')].map(t => t.textContent).join(''))} let sp = Object.keys(entries).find(n => /^xl\/worksheets\/sheet\d+\.xml$/i.test(n)); if (!sp) throw Error('No sheet'); let d = new DOMParser().parseFromString(entries[sp], 'application/xml'); let rows = [...d.getElementsByTagName('row')].map(row => {let a = [];[...row.getElementsByTagName('c')].forEach(c => {let col = (c.getAttribute('r') || '').replace(/\d/g, ''), idx = colIdx(col), t = c.getAttribute('t'), v = '', vv = c.getElementsByTagName('v')[0], is = c.getElementsByTagName('is')[0]; if (t === 's' && vv) v = shared[+vv.textContent] || ''; else if (t === 'inlineStr' && is) v = [...is.getElementsByTagName('t')].map(x => x.textContent).join(''); else if (vv) v = vv.textContent; a[idx] = v}); return a}); let head = (rows[0] || []).map(x => String(x || '')); return rows.slice(1).map(r => {let o = {}; head.forEach((h, i) => o[h || ('Column' + (i + 1))] = r[i] ?? ''); return o})}
+    function colIdx(c) {let n = 0; for (let ch of c) n = n * 26 + ch.charCodeAt(0) - 64; return n - 1}
+    async function unzip(buf) {let dv = new DataView(buf), u = new Uint8Array(buf), e = -1; for (let i = u.length - 22; i >= 0 && i > u.length - 66000; i--)if (dv.getUint32(i, true) === 0x06054b50) {e = i; break} if (e < 0) throw Error('ZIP no valido'); let total = dv.getUint16(e + 10, true), p = dv.getUint32(e + 16, true), entries = {}; for (let j = 0; j < total; j++) {let method = dv.getUint16(p + 10, true), cs = dv.getUint32(p + 20, true), nl = dv.getUint16(p + 28, true), xl = dv.getUint16(p + 30, true), cl = dv.getUint16(p + 32, true), lho = dv.getUint32(p + 42, true), name = new TextDecoder().decode(u.slice(p + 46, p + 46 + nl)); let ln = dv.getUint16(lho + 26, true), lx = dv.getUint16(lho + 28, true), start = lho + 30 + ln + lx, comp = u.slice(start, start + cs), out; if (method === 0) out = comp; else if (method === 8) {if (!('DecompressionStream' in window)) throw Error('Usa Edge/Chrome actualizado o sube CSV'); let ds = new DecompressionStream('deflate-raw'); out = new Uint8Array(await new Response(new Blob([comp]).stream().pipeThrough(ds)).arrayBuffer())} if (out && !name.endsWith('/')) entries[name] = new TextDecoder().decode(out); p += 46 + nl + xl + cl} return entries}
+    renderDashboard();
+  </script>
+</body>
+
+</html>
